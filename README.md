@@ -1,36 +1,42 @@
+# Predicting Project Budget Overruns in Government Procurement
+## Problem :
+Generates a dataloader for procurement public data to consume from a procurement government dashboard.
 
-1) CREATE THE CONTAINER
+## Solution Approach:
+- CREATE THE CONTAINER
 
-docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=pstg123 -e POSTGRES_USER=pstguser -e POSTGRES_DB=contrataciones -d postgres
+    docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=pstg123 -e POSTGRES_USER=pstguser -e POSTGRES_DB=contrataciones -d postgres
 
-2) EXTRACT THE FILE .TAR.GZ AND COPY THE CONTENT TO THE CONTAINER
+- EXTRACT THE FILE .TAR.GZ AND COPY THE CONTENT TO THE CONTAINER
 
-docker cp ./Contratos2021_231112011934.csv postgres:/Contratos2021_231112011934.csv
+    docker cp ./Contratos2021_231112011934.csv postgres:/Contratos2021_231112011934.csv
 
+## Explanation
+- EXECUTE 
+    here you can use pipenv or just pip
 
-3) EXECUTE upload_engagements.py
+    pip install -r requirements.txt  
 
-
-
-
-
-docker exec -it postgres bash
-
---dont use localhost, use the name of the hostname.
-psql -h localhost -d contrataciones -U pstguser
-
-when ask for pass:  pstg123
-\c contrataciones
-
-to extract  dump
-docker exec postgres pg_dump -U pstguser -F t contrataciones > mydb.tar
+    upload_engagements.py
 
 
+## UTILITIES
 
-some querys
+    docker exec -it postgres bash
 
-SELECT count(*),contract."Plantilla del expediente" FROM contract group by contract."Plantilla del expediente" order by 1 desc;
+    --dont use localhost, use the name of the hostname.
+    psql -h localhost -d contrataciones -U pstguser
 
-SELECT sum("Importe del contrato"),contract."Plantilla del expediente" FROM contract group by contract."Plantilla del expediente" order by 1 desc;
+    when ask for pass:  pstg123
+    \c contrataciones
+
+    to extract  dump
+    docker exec postgres pg_dump -U pstguser -F t contrataciones > mydb.tar
+
+
+
+    some querys
+
+    SELECT count(*),contract."Plantilla del expediente" FROM contract group by contract."Plantilla del expediente" order by 1 desc;
 
 
